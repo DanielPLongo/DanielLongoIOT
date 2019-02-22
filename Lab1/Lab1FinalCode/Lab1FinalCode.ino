@@ -1,4 +1,5 @@
 
+
 #include <SoftwareSerial.h>
 #define DEBUG true
 SoftwareSerial esp8266(9,10); 
@@ -34,8 +35,8 @@ float Vsig;
 
 
 //*******Wifi
-#define SSID "wxstation"     // "SSID-WiFiname" 
-#define PASS "weatherapp"       // "password"
+#define SSID "Family2"     // "SSID-WiFiname" 
+#define PASS "Momknowsbest19"       // "password"
 #define IP "184.106.153.149"// thingspeak.com ip
 String msg = "GET /update?key=5W7VVTDRX2QRA5XC"; //change it with your api key like "GET /update?key=Your Api Key"
 
@@ -54,12 +55,23 @@ int warningpin=3;                 //pin to blink red LED when level is in warnin
 int maxvalue=40;                 //initializes max warning value as '40' for Humidity
 int minvalue=30;                  //initializes min warning value to '30' for Humidity 
 String sensor="Humidity";           //sensor variable passed to warning or safe function to populate message
-float sensordata=0;                 //initialize sensor data variable with '0'
+float dustdata=0;                 //initialize sensor data variables with '0'
+float heartdata=0;
+float lightdata=0;
+float pressuredata=0;
+float altitudedata=0;
+float uvdata=0;
+float temperaturedata=0;
+float humiditydata=0;
+
+
+
+
 String unit="%";                    //used for unit expressions of data. Initialized to "%" for Humidity
 
 //**** LED SETUP ***
-int redled = 3;
-int greenled = 2;
+int redled = 6;
+int greenled = 5;
 
 
 // Regards Serial OutPut  -- Set This Up to your needs
@@ -70,7 +82,7 @@ void setup()
 {
   lcd.setBacklight(255);
   lcd.begin(16, 2);
-  lcd.print("circuitdigest.com");
+  lcd.print(" WEATHERSTATION");
   delay(100);
   lcd.setCursor(0,1);
   lcd.print("Connecting...");
@@ -99,10 +111,10 @@ void loop(){
     maxvalue=40;                                              //define max value for warning parameter
     minvalue=35;                                              //define min value for warning parameter
     unit="%";
-    sensordata = dht.readHumidity();                          //read sensor and get data
-    updatesite("1",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    humiditydata = dht.readHumidity();                          //read sensor and get data
+    //updatesite("1",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
     delay(100);
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message
+    testdata(humiditydata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message
     
      
 //**********Temperature Sensor
@@ -110,9 +122,9 @@ void loop(){
     maxvalue=23;                                              //define max value for warning parameter
     minvalue=19;                                              //define min value for warning parameter
     unit="*C";
-    sensordata= dht.readTemperature();                          //read sensor and get data
-    updatesite("2",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message    
+    temperaturedata= dht.readTemperature();                          //read sensor and get data
+    //updatesite("2",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    testdata(temperaturedata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message    
     
 
 //***********Pressure(Barometer)
@@ -120,9 +132,9 @@ void loop(){
     maxvalue=2;                                              //define max value for warning parameter
     minvalue=-1;                                              //define min value for warning parameter
     unit="Pa";
-    sensordata= bmp.readPressure();                          //read sensor and get data
-    updatesite("3",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message   
+    pressuredata= bmp.readPressure();                          //read sensor and get data
+    //updatesite("3",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    testdata(pressuredata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message   
     
 
 //***********Altitude(Barometer)
@@ -130,25 +142,25 @@ void loop(){
     maxvalue=5000;                                              //define max value for warning parameter
     minvalue=500;                                              //define min value for warning parameter
     unit="m";
-    sensordata= bmp.readAltitude(850);                          //read sensor and get data
-    updatesite("4",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message   
+    altitudedata= bmp.readAltitude(101325)/40;                          //read sensor and get data
+    //updatesite("4",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    testdata(altitudedata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message   
     
 
 //***********Light
     sensor="Light";                                        //define sensor type
-    maxvalue=350;                                              //define max value for warning parameter
-    minvalue=200;                                              //define min value for warning parameter
+    maxvalue=400;                                              //define max value for warning parameter
+    minvalue=100;                                              //define min value for warning parameter
     unit="lumens";
-    sensordata= analogRead(A0);                          //read sensor and get data
-    updatesite("5",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message 
+    lightdata= analogRead(A0);                          //read sensor and get data
+    //updatesite("5",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    testdata(lightdata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message 
 
 
 //***********Dust
     sensor="CX";                                        //define sensor type
-    maxvalue=0.7;                                              //define max value for warning parameter
-    minvalue=0.5;                                              //define min value for warning parameter
+    maxvalue=1000;                                              //define max value for warning parameter
+    minvalue=0;                                              //define min value for warning parameter
     unit="pcs/0.01cf";
   starttime = millis();
   delay(2000);
@@ -157,11 +169,11 @@ void loop(){
   if ((millis()-starttime) >= sampletime_ms) //if the sampel time = = 30s
    {
     ratio = lowpulseoccupancy/(sampletime_ms*10.0);  
-    sensordata = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; 
+    dustdata = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; 
     lowpulseoccupancy = 0;
    }
-    updatesite("6",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-    testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message 
+    //updatesite("6",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+    testdata(dustdata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message 
 
 
 //***********UV Sensor
@@ -179,53 +191,17 @@ void loop(){
       delay(2);
    }   
    sum = sum >> 10;
-   sensordata = sum*4980.0/1023.0;                          //the value of voltage measured from the SIG pin of the Grove interface
+   uvdata = sum*4980.0/1023.0;                          //the value of voltage measured from the SIG pin of the Grove interface
     
-   updatesite("7",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
-   testdata(sensordata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message
+   //updatesite("7",sensordata);                             //update ThingSpeak site with data ("field",sensordata)
+   testdata(uvdata,maxvalue,minvalue,sensor,unit);        //test data and trigger Safe or Warning message
  
-//if (Vsig < 50) {
-//    Serial.print("UV Index: 0 "); Serial.println("   Exposure level - NONE (You're probably at home!) ");
-// }
-//if (Vsig > 50 && Vsig < 227) {
-//    Serial.print("UV Index: 1 "); Serial.println("   Exposure level - LOW (You're probably at home!) ");
-// }
-//if (Vsig > 227 && Vsig < 318) {
-//    Serial.print("UV Index: 2 "); Serial.println("   Exposure level - LOW (You can go outside and have fun!) ");
-// }
-//if (Vsig > 318 && Vsig < 408) {
-//    Serial.print("UV Index: 3 "); Serial.println("   Exposure level - MODERATE (Sun starts to annoy you) ");
-// }
-//if (Vsig > 408 && Vsig < 503) {
-//    Serial.print("UV Index: 4 "); Serial.println("   Exposure level - MODERATE (Sun starts to annoy you) ");
-// }
-//if (Vsig > 503 && Vsig < 606) {
-//    Serial.print("UV Index: 5 "); Serial.println("   Exposure level - MODERATE (Sun starts to annoy you) ");
-// }
-//if (Vsig > 606 && Vsig < 696) {
-//    Serial.print("UV Index: 6 "); Serial.println("   Exposure level - HIGH (Get out from the sunlight! get out now!) ");
-// }
-//if (Vsig > 696 && Vsig < 795) {
-//    Serial.print("UV Index: 7 "); Serial.println("   Exposure level - HIGH (Get out from the sunlight! get out now!) ");
-// }
-//if (Vsig > 795 && Vsig < 881) {
-//    Serial.print("UV Index: 8 "); Serial.println("   Exposure level - VERY HIGH (Get out from the sunlight! get out now!) ");
-// }
-//if (Vsig > 881 && Vsig < 976) {
-//    Serial.print("UV Index: 9 "); Serial.println("   Exposure level - VERY HIGH (If you value your health, don't go outside, just stay at home!) ");
-// }
-//if (Vsig > 976 && Vsig < 1079) {
-//    Serial.print("UV Index: 10 "); Serial.println("   Exposure level - VERY HIGH (If you value your health, don't go outside, just stay at home!) ");
-// }
-//if (Vsig > 1079 && Vsig < 1170) {
-//    Serial.print("UV Index: 11 "); Serial.println("   Exposure level - EXTREME (If you value your health, don't go outside, just stay at home!) ");
-// }
-//if (Vsig > 1170) {
-//    Serial.print("UV Index: 11+ "); Serial.println("   Exposure level - EXTREME (You will probably die in 3, 2, 1... Just JOKING, don't be scared...) - intensity of sunlight is really at maximum ");
-// }
 
-
-
+//***********Send Data to Thingspeak
+   updatesite(humiditydata, temperaturedata,
+    pressuredata, altitudedata,
+    lightdata, dustdata,
+    uvdata);
 
 
   start: //label 
@@ -294,12 +270,11 @@ void safe(String sensor,float sensordata,String unit)
     
     lcd.setCursor(0,1);
     lcd.print("      SAFE");
-    delay(2000);       
+    blinkgreen();       
   }
 
 void blinkred()
   {
-    digitalWrite(greenled,LOW);
     for (int i = 0; i <= 8; i++)
     {
       digitalWrite(redled,HIGH);
@@ -309,22 +284,51 @@ void blinkred()
     }
   }
 
+void blinkgreen()
+  {
+    for (int i = 0; i <= 8; i++)
+    {
+      digitalWrite(greenled,HIGH);
+      delay(250);
+      digitalWrite(greenled,LOW);
+      delay(250);
+    }
+  }
+
   
-void updatesite(char field, float value){
+void updatesite(float value1, float value2, float value3, float value4, 
+                float value5, float value6, float value7){
   String cmd = "AT+CIPSTART=\"TCP\",\"";
   cmd += IP;
   cmd += "\",80";
   Serial.println(cmd);
   esp8266.println(cmd);
-  delay(200);
+  delay(1000);
   if(esp8266.find("Error")){
     return;
   }
   cmd = msg ;
-  cmd += "&field";
-  cmd += field;
+  cmd += "&field1";
   cmd += "=";
-  cmd += value;
+  cmd += value1;
+  cmd += "&field2";
+  cmd += "=";
+  cmd += value2;
+  cmd += "&field3";
+  cmd += "=";
+  cmd += value3;
+  cmd += "&field4";
+  cmd += "=";
+  cmd += value4;
+  cmd += "&field5";
+  cmd += "=";
+  cmd += value5;
+  cmd += "&field6";
+  cmd += "=";
+  cmd += value6;
+  cmd += "&field7";
+  cmd += "=";
+  cmd += value7;
   cmd += "\r\n";
   Serial.print("AT+CIPSEND=");
   esp8266.print("AT+CIPSEND=");
@@ -369,4 +373,4 @@ void interruptSetup(){
   OCR2A = 0X7C;      // SET THE TOP OF THE COUNT TO 124 FOR 500Hz SAMPLE RATE
   TIMSK2 = 0x02;     // ENABLE INTERRUPT ON MATCH BETWEEN TIMER2 AND OCR2A
   sei();             // MAKE SURE GLOBAL INTERRUPTS ARE ENABLED      
-} 
+}
