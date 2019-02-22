@@ -63,7 +63,8 @@ float altitudedata=0;
 float uvdata=0;
 float temperaturedata=0;
 float humiditydata=0;
-
+int wakePin=4;
+int sleepPin=3;
 
 
 
@@ -93,6 +94,11 @@ void setup()
   delay(5000);
   if(esp8266.find("OK")){
     connectWiFi();
+
+  pinMode(wakePin,INPUT);
+  pinMode(sleepPin, INPUT);
+
+  attachInterrupt(1,sleep,HIGH);
   }
 
  //*** PIN SETUP ***
@@ -345,6 +351,28 @@ void updatesite(float value1, float value2, float value3, float value4,
    // error=1;
   //}
   delay(500);
+}
+
+void wake()
+{
+   attachInterrupt(1,sleep,HIGH);
+}
+
+void sleep()
+{
+ 
+  bool state=digitalRead(wakePin);
+  lcd.clear();
+  digitalWrite(greenled,LOW);
+  digitalWrite(redled,LOW);
+  
+  while (state==false)
+  {
+    
+    state=digitalRead(wakePin);
+    
+  }
+ 
 }
 
 boolean connectWiFi(){

@@ -1,0 +1,331 @@
+Comparing files ICP2.ino and ICP3.INO
+***** ICP2.ino
+    1:  #include <SoftwareSerial.h>
+    2:  #define DEBUG true
+***** ICP3.INO
+    1:  
+    2:  #include <SoftwareSerial.h>
+    3:  #define DEBUG true
+*****
+
+***** ICP2.ino
+    5:  #include <stdlib.h>
+    6:  LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+***** ICP3.INO
+    6:  #include <stdlib.h>
+    7:  #include <DHT.h>
+    8:  LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+*****
+
+***** ICP2.ino
+    7:  
+    8:  #define SSID "Pixel"     // "SSID-WiFiname" 
+    9:  #define PASS "12345678"       // "password"
+   10:  #define IP "184.106.153.149"// thingspeak.com ip
+   11:  String msg = "GET /update?key=OTLPPT7RD92WH3GE"; //change it with your api key like "GET /update?key=Your Api Key"
+   12:  
+   13:  int switchState2 = 0;
+   14:  int switchState6 = 0;
+   15:  int switchState7 = 0;
+   16:  //Variables
+***** ICP3.INO
+    9:  
+   10:  //******Temperature*******
+   11:  #define DHTPIN 7     // what pin we're connected to
+   12:  #define DHTTYPE DHT22   // DHT 22  (AM2302)
+   13:  DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
+   14:  
+   15:  //******Barometer********
+   16:  #include <Adafruit_Sensor.h>
+   17:  #include <Adafruit_BMP280.h>
+   18:  Adafruit_BMP280 bmp; // I2C
+   19:  
+   20:  //********Light***********
+   21:  int light;
+   22:  
+   23:  //********Dust***********
+   24:  int pin = 8;
+   25:  unsigned long duration;
+   26:  unsigned long starttime;
+   27:  unsigned long sampletime_ms = 2000; 
+   28:  unsigned long lowpulseoccupancy = 0;
+   29:  float ratio = 0;
+   30:  float concentration = 0;
+   31:  
+   32:  //********UV***********
+   33:  float Vsig;
+   34:  
+   35:  
+   36:  #define SSID "490RoProg1"     // "SSID-WiFiname" 
+   37:  #define PASS "490RoPro"       // "password"
+   38:  #define IP "184.106.153.149"// thingspeak.com ip
+   39:  String msg = "GET /update?key=CQ5PC2S1M5ZC34VB"; //change it with your api key like "GET /update?key=Your Api Key"
+   40:  
+   41:  
+   42:  //Variables
+*****
+
+***** ICP2.ino
+   25:  
+   26:  // Volatile Variables, used in the interrupt service routine!
+   27:  volatile int BPM;                   // int that holds raw Analog in 0. updated every 2mS
+   28:  volatile int Signal;                // holds the incoming raw data
+   29:  volatile int IBI = 600;             // int that holds the time interval between beats! Must be seeded! 
+   30:  volatile boolean Pulse = false;     // "True" when heartbeat is detected. "False" when not a "live beat". 
+   31:  volatile boolean QS = false;        // becomes true when Arduino finds a beat.
+   32:  
+   33:  // Regards Serial OutPut  -- Set This Up to your needs
+***** ICP3.INO
+   51:  
+   52:  // Regards Serial OutPut  -- Set This Up to your needs
+*****
+
+***** ICP2.ino
+   35:  l Pulse 
+   36:  volatile int rate[10];                    // array to hold last ten IBI values
+   37:  volatile unsigned long sampleCounter = 0;          // used to determine pulse timing
+   38:  volatile unsigned long lastBeatTime = 0;           // used to find IBI
+   39:  volatile int P =512;                      // used to find peak in pulse wave, seeded
+   40:  volatile int T = 512;                     // used to find trough in pulse wave, seeded
+   41:  volatile int thresh = 525;                // used to find instant moment of heart beat, seeded
+   42:  volatile int amp = 100;                   // used to hold amplitude of pulse waveform, seeded
+   43:  volatile boolean firstBeat = true;        // used to seed rate array so we startup with reasonable BPM
+   44:  volatile boolean secondBeat = false;      // used to seed rate array so we startup with reasonable BPM
+   45:  
+***** ICP3.INO
+   54:  l Pulse 
+   55:  
+   56:  
+*****
+
+***** ICP2.ino
+   61:    }
+   62:    interruptSetup(); 
+   63:    pinMode(3, OUTPUT);
+   64:    pinMode(4, OUTPUT);
+   65:    pinMode(5, OUTPUT);
+   66:    pinMode(2, INPUT);
+   67:    pinMode(6, INPUT);
+   68:    pinMode(7, INPUT);
+   69:    digitalWrite(3, LOW); //Set lights to off initially
+   70:    digitalWrite(4,LOW);
+   71:    digitalWrite(5,LOW);
+   72:    //lcd.noDisplay();
+   73:  }
+***** ICP3.INO
+   72:    }
+   73:   
+   74:    
+   75:    pinMode(A0,INPUT); //pin for Light sensor
+   76:  
+   77:    pinMode(8,INPUT); //pin for Dust sensor
+   78:  
+   79:  
+   80:  }
+*****
+
+Resync Failed.  Files are too different.
+***** ICP2.ino
+   76:    lcd.clear();
+   77:    
+   78:    switchState2 = digitalRead(2);
+   79:    switchState6 = digitalRead(6);
+   80:    switchState7 = digitalRead(7);
+   81:    if(switchState2 == HIGH){
+   82:      lcd.clear();
+   83:      lcd.print("Display Off");
+   84:      lcd.noDisplay();
+   85:    }
+   86:     if(switchState6 == HIGH){
+   87:      Serial.println("one");
+   88:      lcd.clear();
+   89:      lcd.print("Display On");
+   90:      lcd.display();
+   91:      lcd.setCursor(0, 0);
+   92:      lcd.print("BPM = ");
+   93:      lcd.print(BPM);
+   94:      delay (100);
+   95:      lcd.setCursor(0, 1); // set the cursor to column 0, line 2
+   96:    }
+   97:      lcd.display();
+   98:      lcd.setCursor(0, 0);
+   99:      lcd.print("BPM = ");
+  100:      lcd.print(BPM);
+  101:      delay (100);
+  102:      lcd.setCursor(0, 1); // set the cursor to column 0, line 2
+  103:    start: //label 
+  104:    error=0;
+  105:    delay(100);
+  106:    updatebeat();
+  107:    //Resend if transmission is not completed 
+  108:    if (error==1){
+  109:      goto start; //go to label "start"
+  110:    }
+  111:    delay(100); 
+  112:  }
+  113:  
+  114:  void updatebeat(){
+  115:    String cmd = "AT+CIPSTART=\"TCP\",\"";
+  116:    cmd += IP;
+  117:    cmd += "\",80";
+  118:    Serial.println(cmd);
+  119:    esp8266.println(cmd);
+  120:    delay(2000);
+  121:    if(esp8266.find("Error")){
+  122:      return;
+  123:    }
+  124:    cmd = msg ;
+  125:    cmd += "&field1=";   
+  126:    cmd += BPM;
+  127:    cmd += "\r\n";
+  128:    Serial.print("AT+CIPSEND=");
+  129:    esp8266.print("AT+CIPSEND=");
+  130:    Serial.println(cmd.length());
+  131:    esp8266.println(cmd.length());
+  132:   // if(esp8266.find(">")){
+  133:      Serial.print(cmd);
+  134:      esp8266.print(cmd);
+  135:   // }
+  136:    //else{
+  137:    // Serial.println("AT+CIPCLOSE");
+  138:     //esp8266.println("AT+CIPCLOSE");
+  139:     // //Resend...
+  140:     // error=1;
+  141:    //}
+  142:  }
+  143:  
+  144:  boolean connectWiFi(){
+  145:    Serial.println("AT+CWMODE=1");
+  146:    esp8266.println("AT+CWMODE=1");
+  147:    delay(2000);
+  148:    String cmd="AT+CWJAP=\"";
+  149:    cmd+=SSID;
+  150:    cmd+="\",\"";
+  151:    cmd+=PASS;
+  152:    cmd+="\"";
+  153:    Serial.println(cmd);
+  154:    esp8266.println(cmd);
+  155:    delay(5000);
+  156:    if(esp8266.find("OK")){
+  157:      Serial.println("OK");
+  158:      return true;    
+  159:    }else{
+  160:      return false;
+  161:    }
+  162:  }
+  163:  
+  164:  void interruptSetup(){     
+  165:    TCCR2A = 0x02;     // DISABLE PWM ON DIGITAL PINS 3 AND 11, AND GO INTO CTC MODE
+  166:    TCCR2B = 0x06;     // DON'T FORCE COMPARE, 256 PRESCALER 
+  167:    OCR2A = 0X7C;      // SET THE TOP OF THE COUNT TO 124 FOR 500Hz SAMPLE RATE
+  168:    TIMSK2 = 0x02;     // ENABLE INTERRUPT ON MATCH BETWEEN TIMER2 AND OCR2A
+  169:    sei();             // MAKE SURE GLOBAL INTERRUPTS ARE ENABLED      
+  170:  } 
+  171:  
+  172:  ISR(TIMER2_COMPA_vect){                       // triggered when Timer2 counts to 124
+  173:    cli();                                      // disable interrupts while we do this
+  174:    Signal = analogRead(pulsePin);              // read the Pulse Sensor 
+  175:    sampleCounter += 2;                         // keep track of the time in mS
+***** ICP3.INO
+   83:    lcd.clear();
+   84:    lcd.setCursor(0,0);
+   85:   //Temp Sensor
+   86:      //Read data and store it to variables hum and temp
+   87:      hum = dht.readHumidity();
+   88:      temp= dht.readTemperature();
+   89:      //Print temp and humidity values to serial monitor
+   90:      lcd.print("Humidity: ");
+   91:      lcd.print(hum);
+   92:      lcd.print("%");
+   93:      lcd.setCursor(0, 1); // set the cursor to column 0, line 2
+   94:      lcd.print("Temp: ");
+   95:      lcd.print(temp);
+   96:      lcd.println(" *C");
+   97:      delay(2000); //Delay 2 sec.
+   98:      updatebeat('1', hum);
+   99:      updatebeat('2', temp);
+  100:      
+  101:  
+  102:  //Barometer
+  103:      lcd.clear();
+  104:      lcd.setCursor(0,0);
+  105:  //    lcd.print(F("Temperature = "));
+  106:  //    lcd.print(bmp.readTemperature());
+  107:  //    lcd.println(" *C");
+  108:      
+  109:      lcd.print(F("Pressure = "));
+  110:      lcd.print(bmp.readPressure());
+  111:      lcd.println(" Pa");
+  112:      lcd.setCursor(0,1);
+  113:      lcd.print(F("Altitude = "));
+  114:      lcd.print(bmp.readAltitude(29.92)); // this should be adjusted to your local forcase
+  115:      lcd.println(" m");    
+  116:      lcd.println();
+  117:      updatebeat('3', bmp.readPressure());
+  118:      updatebeat('4', bmp.readAltitude(29.92));    
+  119:      delay(2000);
+  120:  
+  121:  //Light Sensor
+  122:    lcd.clear();
+  123:    lcd.setCursor(0,0);
+  124:    light=analogRead(A0);
+  125:    lcd.println("Light = " + String(light));
+  126:    updatebeat('5', light);
+  127:    delay(2000);    
+  128:  
+  129:  
+  130:  //Dust Sensor
+  131:    lcd.clear();
+  132:    lcd.setCursor(0,0);
+  133:    starttime = millis();
+  134:    delay(2000);
+  135:    duration = pulseIn(pin, LOW);
+  136:    lowpulseoccupancy = lowpulseoccupancy+duration;
+  137:    if ((millis()-starttime) >= sampletime_ms) //if the sampel time = = 30s
+  138:    {
+  139:      ratio = lowpulseoccupancy/(sampletime_ms*10.0);  
+  140:      concentration = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; 
+  141:      lcd.print("CX = ");
+  142:      lcd.print(concentration);
+  143:      lcd.println(" pcs/0.01cf");
+  144:      lcd.println("\n");
+  145:      lowpulseoccupancy = 0;
+  146:      updatebeat('6', concentration);
+  147:      delay(2000); 
+  148:    }
+  149:  
+  150:  
+  151:  //UV Sensor
+  152:    int sensorValue;
+  153:    long  sum=0;
+  154:    for(int i=0;i<1024;i++)
+  155:     {  
+  156:        sensorValue=analogRead(A1);
+  157:        sum=sensorValue+sum;
+  158:        delay(2);
+  159:     }   
+  160:   sum = sum >> 10;
+  161:   Vsig = sum*4980.0/1023.0; // Vsig is the value of voltage measured from the SIG pin of the Grove interface
+  162:   lcd.clear();
+  163:   lcd.setCursor(0,0);
+  164:   lcd.print("UV Level: ");
+  165:   lcd.print(Vsig);
+  166:   lcd.print(" mV    --   ");
+  167:   
+  168:  //if (Vsig < 50) {
+  169:  //    Serial.print("UV Index: 0 "); Serial.println("   Exposure level - NONE (You're probably at home!) ");
+  170:  // }
+  171:  //if (Vsig > 50 && Vsig < 227) {
+  172:  //    Serial.print("UV Index: 1 "); Serial.println("   Exposure level - LOW (You're probably at home!) ");
+  173:  // }
+  174:  //if (Vsig > 227 && Vsig < 318) {
+  175:  //    Serial.print("UV Index: 2 "); Serial.println("   Exposure level - LOW (You can go outside and have fun!) ");
+  176:  // }
+  177:  //if (Vsig > 318 && Vsig < 408) {
+  178:  //    Serial.print("UV Index: 3 "); Serial.println("   Exposure level - MODERATE (Sun starts to annoy you) ");
+  179:  // }
+  180:  //if (Vsig > 408 && Vsig < 503) {
+  181:  //    Serial.print("UV Index: 4 "); Serial.println("   Exposure level - MODERATE (Sun starts to annoy you) ");
+  182:  // }
+*****
+
