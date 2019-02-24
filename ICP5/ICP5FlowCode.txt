@@ -1,0 +1,465 @@
+[
+    {
+        "id": "79c7e3f5.3a793c",
+        "type": "tab",
+        "label": "ICP5, 8 Nodes",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8b3a4771.126998",
+        "type": "mqtt in",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "topic": "temperature",
+        "qos": "2",
+        "broker": "d5cf337b.96038",
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "f5991825.049448"
+            ]
+        ]
+    },
+    {
+        "id": "78772d2c.e47aa4",
+        "type": "http in",
+        "z": "79c7e3f5.3a793c",
+        "name": "GET nodered.org",
+        "url": "http://www.nodered.org",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 200,
+        "wires": [
+            [
+                "84240f53.9bda6"
+            ]
+        ]
+    },
+    {
+        "id": "4ffc6064.8d985",
+        "type": "debug",
+        "z": "79c7e3f5.3a793c",
+        "name": "Listen to Message",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1090,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "da4305ee.217998",
+        "type": "websocket out",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "server": "",
+        "client": "40e9c927.673ec8",
+        "x": 1130,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "1b727cdd.d11573",
+        "type": "websocket in",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "server": "bb3c0481.b20ce8",
+        "client": "",
+        "x": 810,
+        "y": 380,
+        "wires": [
+            [
+                "4ffc6064.8d985"
+            ]
+        ]
+    },
+    {
+        "id": "dfdf7143.c04a8",
+        "type": "inject",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "x": 170,
+        "y": 40,
+        "wires": [
+            [
+                "eef20ccc.0e8e5"
+            ]
+        ]
+    },
+    {
+        "id": "25c0c74d.3b5798",
+        "type": "function",
+        "z": "79c7e3f5.3a793c",
+        "name": "PH Temperature",
+        "func": "var WX = {payload:msg.payload.main.temp};\nreturn WX;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 840,
+        "y": 40,
+        "wires": [
+            [
+                "3eaa275f.a68bc8"
+            ]
+        ]
+    },
+    {
+        "id": "5d4275b8.7fad2c",
+        "type": "switch",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "str"
+            },
+            {
+                "t": "btwn",
+                "v": "50",
+                "vt": "num",
+                "v2": "80",
+                "v2t": "num"
+            },
+            {
+                "t": "gt",
+                "v": "80",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 610,
+        "y": 100,
+        "wires": [
+            [
+                "3d3bf0a9.91ddc"
+            ],
+            [
+                "82ea646.9948998"
+            ],
+            [
+                "65c636a2.412f48"
+            ]
+        ]
+    },
+    {
+        "id": "56b74811.3940c8",
+        "type": "rbe",
+        "z": "79c7e3f5.3a793c",
+        "name": "Update with 1* Change",
+        "func": "narrowband",
+        "gap": "98%",
+        "start": "",
+        "inout": "out",
+        "property": "payload",
+        "x": 410,
+        "y": 100,
+        "wires": [
+            [
+                "5d4275b8.7fad2c",
+                "f118561.bdee4a8"
+            ]
+        ]
+    },
+    {
+        "id": "3d3bf0a9.91ddc",
+        "type": "file in",
+        "z": "79c7e3f5.3a793c",
+        "name": "It's Cold",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\ICP5\\Cold.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 780,
+        "y": 100,
+        "wires": [
+            [
+                "84240f53.9bda6",
+                "da4305ee.217998"
+            ]
+        ]
+    },
+    {
+        "id": "82ea646.9948998",
+        "type": "file in",
+        "z": "79c7e3f5.3a793c",
+        "name": "It's Nice",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\ICP5\\Nice.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 780,
+        "y": 140,
+        "wires": [
+            [
+                "84240f53.9bda6",
+                "da4305ee.217998"
+            ]
+        ]
+    },
+    {
+        "id": "65c636a2.412f48",
+        "type": "file in",
+        "z": "79c7e3f5.3a793c",
+        "name": "It's Hot",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\ICP5\\Hot.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 770,
+        "y": 180,
+        "wires": [
+            [
+                "84240f53.9bda6",
+                "da4305ee.217998"
+            ]
+        ]
+    },
+    {
+        "id": "f118561.bdee4a8",
+        "type": "function",
+        "z": "79c7e3f5.3a793c",
+        "name": "Temp is...",
+        "func": "var comment=\"Compared to the temperature in Pleasant Hill, Missouri of \";\nvar temp=msg.payload;\nvar string=comment.concat(temp);\nmsg.payload=string;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "84240f53.9bda6",
+                "da4305ee.217998"
+            ]
+        ]
+    },
+    {
+        "id": "84240f53.9bda6",
+        "type": "debug",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1070,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "eef20ccc.0e8e5",
+        "type": "http request",
+        "z": "79c7e3f5.3a793c",
+        "name": "http weather request",
+        "method": "GET",
+        "ret": "txt",
+        "url": "https://api.openweathermap.org/data/2.5/weather?id=4871472&appid=0759501b032a17533c36272d6dbd200f",
+        "tls": "",
+        "x": 360,
+        "y": 40,
+        "wires": [
+            [
+                "c24e8532.79d5e8"
+            ]
+        ]
+    },
+    {
+        "id": "c24e8532.79d5e8",
+        "type": "json",
+        "z": "79c7e3f5.3a793c",
+        "name": "convert string to Json",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 620,
+        "y": 40,
+        "wires": [
+            [
+                "25c0c74d.3b5798"
+            ]
+        ]
+    },
+    {
+        "id": "15d957e7.c98d68",
+        "type": "debug",
+        "z": "79c7e3f5.3a793c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1070,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "780d8de3.f6cab4",
+        "type": "json",
+        "z": "79c7e3f5.3a793c",
+        "name": "convert to Json",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 520,
+        "y": 360,
+        "wires": [
+            [
+                "1262e166.a0107f"
+            ]
+        ]
+    },
+    {
+        "id": "f5991825.049448",
+        "type": "change",
+        "z": "79c7e3f5.3a793c",
+        "name": "Change/Remove 'C'",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "C",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 300,
+        "wires": [
+            [
+                "780d8de3.f6cab4"
+            ]
+        ]
+    },
+    {
+        "id": "2591dd82.c48342",
+        "type": "function",
+        "z": "79c7e3f5.3a793c",
+        "name": "Airport Temperature",
+        "func": "var comment2=\"Your Airport temperature is  \";\nvar temp2=msg.payload;\nvar string2=comment2.concat(temp2);\nmsg.payload=string2;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 820,
+        "y": 300,
+        "wires": [
+            [
+                "15d957e7.c98d68",
+                "da4305ee.217998"
+            ]
+        ]
+    },
+    {
+        "id": "1262e166.a0107f",
+        "type": "range",
+        "z": "79c7e3f5.3a793c",
+        "minin": "-50",
+        "maxin": "50",
+        "minout": "-58",
+        "maxout": "122",
+        "action": "scale",
+        "round": false,
+        "property": "payload",
+        "name": "*C to *F",
+        "x": 640,
+        "y": 300,
+        "wires": [
+            [
+                "2591dd82.c48342"
+            ]
+        ]
+    },
+    {
+        "id": "3eaa275f.a68bc8",
+        "type": "range",
+        "z": "79c7e3f5.3a793c",
+        "minin": "227.59",
+        "maxin": "322",
+        "minout": "-50",
+        "maxout": "120",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "*K to *F",
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "56b74811.3940c8"
+            ]
+        ]
+    },
+    {
+        "id": "d5cf337b.96038",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "40e9c927.673ec8",
+        "type": "websocket-client",
+        "z": "",
+        "path": "wss://echo.websocket.org",
+        "tls": "c8879770.332fa8",
+        "wholemsg": "false"
+    },
+    {
+        "id": "bb3c0481.b20ce8",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "wss://echo.websocket.org",
+        "wholemsg": "false"
+    },
+    {
+        "id": "c8879770.332fa8",
+        "type": "tls-config",
+        "z": "",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true
+    }
+]
