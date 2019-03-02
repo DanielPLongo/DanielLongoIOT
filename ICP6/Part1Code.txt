@@ -1,0 +1,63 @@
+[
+    {
+        "id": "2f20b119.4f16ee",
+        "type": "tab",
+        "label": "ICP 6",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "55d6e169.3b193",
+        "type": "inject",
+        "z": "2f20b119.4f16ee",
+        "name": "0.5 sec tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": ".5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.5",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "44101e2e.7b587"
+            ]
+        ]
+    },
+    {
+        "id": "44101e2e.7b587",
+        "type": "function",
+        "z": "2f20b119.4f16ee",
+        "name": "toggle",
+        "func": "//if it does exist make it the inverse of what it was or else initialize it to false\n//(context veriables persist between calls to the function)\ncontext.level=!context.level||false;\n\n//set teh payload to the level and return\nmsg.payload=context.level;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "7482fb87.916f04"
+            ]
+        ]
+    },
+    {
+        "id": "7482fb87.916f04",
+        "type": "arduino out",
+        "z": "2f20b119.4f16ee",
+        "name": "Red",
+        "pin": "4",
+        "state": "OUTPUT",
+        "arduino": "38b46bf6.ea8244",
+        "x": 530,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "38b46bf6.ea8244",
+        "type": "arduino-board",
+        "z": "",
+        "device": "COM9"
+    }
+]
