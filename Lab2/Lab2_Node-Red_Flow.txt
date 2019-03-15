@@ -1,0 +1,740 @@
+Lab 2 Node-Red Flow
+
+*****************************************************
+[
+    {
+        "id": "3dda4b0d.6b2384",
+        "type": "tab",
+        "label": "Lab 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "7da5d2b3.32a87c",
+        "type": "arduino in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Light",
+        "pin": "5",
+        "state": "ANALOG",
+        "arduino": "38b46bf6.ea8244",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "caa1e9a7.d9daf8",
+                "5673fadc.ebfc04",
+                "f6d2ee84.cf291"
+            ]
+        ]
+    },
+    {
+        "id": "caa1e9a7.d9daf8",
+        "type": "debug",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 450,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "9b35b5e4.8661a8",
+        "type": "arduino in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Dust",
+        "pin": "4",
+        "state": "ANALOG",
+        "arduino": "38b46bf6.ea8244",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "36a7c6e6.0aea5a",
+                "94f64d8d.cd977"
+            ]
+        ]
+    },
+    {
+        "id": "36a7c6e6.0aea5a",
+        "type": "debug",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 450,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e773c8b3.60b488",
+        "type": "debug",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1010,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "5673fadc.ebfc04",
+        "type": "ui_gauge",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "group": "ae32a660.370198",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Light Level Gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 470,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "53bd8a39.df5984",
+        "type": "ui_chart",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "group": "32dd4877.ab60f8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Local Temperature Chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "-20",
+        "ymax": "120",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 1090,
+        "y": 500,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "1d1ffd50.b32433",
+        "type": "ui_text",
+        "z": "3dda4b0d.6b2384",
+        "group": "32dd4877.ab60f8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Temp Display",
+        "label": "Temperature",
+        "format": "{{msg.payload}} *F",
+        "layout": "col-center",
+        "x": 1060,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "280df3ae.8327fc",
+        "type": "ui_slider",
+        "z": "3dda4b0d.6b2384",
+        "name": "Water Level",
+        "label": "slider",
+        "tooltip": "",
+        "group": "e211eccf.25c34",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "63c82b6c.f446c4",
+                "f2ccf0aa.a548c"
+            ]
+        ]
+    },
+    {
+        "id": "460febfa.e77714",
+        "type": "debug",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1050,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "7387802f.c0e65",
+        "type": "range",
+        "z": "3dda4b0d.6b2384",
+        "minin": "227.59",
+        "maxin": "322",
+        "minout": "-50",
+        "maxout": "120",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "*K to *F",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "ec2707bd.b18a68"
+            ]
+        ]
+    },
+    {
+        "id": "ec2707bd.b18a68",
+        "type": "rbe",
+        "z": "3dda4b0d.6b2384",
+        "name": "Update with 1* Change",
+        "func": "narrowband",
+        "gap": "98%",
+        "start": "",
+        "inout": "out",
+        "property": "payload",
+        "x": 390,
+        "y": 320,
+        "wires": [
+            [
+                "c9b258ac.5b6f48",
+                "1d1ffd50.b32433",
+                "53bd8a39.df5984"
+            ]
+        ]
+    },
+    {
+        "id": "c9b258ac.5b6f48",
+        "type": "switch",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "str"
+            },
+            {
+                "t": "btwn",
+                "v": "50",
+                "vt": "num",
+                "v2": "80",
+                "v2t": "num"
+            },
+            {
+                "t": "gt",
+                "v": "80",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "400134cb.e8f10c"
+            ],
+            [
+                "baa9cc66.7b1fc"
+            ],
+            [
+                "dcfe544c.d0a4d8"
+            ]
+        ]
+    },
+    {
+        "id": "400134cb.e8f10c",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "It's Cold",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\Cold.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 760,
+        "y": 320,
+        "wires": [
+            [
+                "460febfa.e77714",
+                "6b67c19.f89904"
+            ]
+        ]
+    },
+    {
+        "id": "baa9cc66.7b1fc",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "It's Nice",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\Nice.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 760,
+        "y": 360,
+        "wires": [
+            [
+                "460febfa.e77714",
+                "6b67c19.f89904"
+            ]
+        ]
+    },
+    {
+        "id": "dcfe544c.d0a4d8",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "It's Hot",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\Hot.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 750,
+        "y": 400,
+        "wires": [
+            [
+                "460febfa.e77714",
+                "6b67c19.f89904"
+            ]
+        ]
+    },
+    {
+        "id": "de12d970.acd1a8",
+        "type": "function",
+        "z": "3dda4b0d.6b2384",
+        "name": "PH Temperature",
+        "func": "var WX = {payload:msg.payload.main.temp};\nreturn WX;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 820,
+        "y": 260,
+        "wires": [
+            [
+                "7387802f.c0e65"
+            ]
+        ]
+    },
+    {
+        "id": "f97f6bf7.2e4fa8",
+        "type": "json",
+        "z": "3dda4b0d.6b2384",
+        "name": "convert string to Json",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "de12d970.acd1a8"
+            ]
+        ]
+    },
+    {
+        "id": "1ddd5a76.441996",
+        "type": "http request",
+        "z": "3dda4b0d.6b2384",
+        "name": "http weather request",
+        "method": "GET",
+        "ret": "txt",
+        "url": "https://api.openweathermap.org/data/2.5/weather?id=4871472&appid=0759501b032a17533c36272d6dbd200f",
+        "tls": "",
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "f97f6bf7.2e4fa8"
+            ]
+        ]
+    },
+    {
+        "id": "53ac416e.c8593",
+        "type": "inject",
+        "z": "3dda4b0d.6b2384",
+        "name": "Get WX/min",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "x": 150,
+        "y": 260,
+        "wires": [
+            [
+                "1ddd5a76.441996"
+            ]
+        ]
+    },
+    {
+        "id": "6b67c19.f89904",
+        "type": "ui_audio",
+        "z": "3dda4b0d.6b2384",
+        "name": "Temperature announcement",
+        "group": "32dd4877.ab60f8",
+        "voice": "en-GB",
+        "always": true,
+        "x": 1100,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f6d2ee84.cf291",
+        "type": "switch",
+        "z": "3dda4b0d.6b2384",
+        "name": "Light Level Indication",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "700",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 480,
+        "y": 80,
+        "wires": [
+            [
+                "f87ff6ef.795118"
+            ],
+            [
+                "30a3c574.18fd5a"
+            ]
+        ]
+    },
+    {
+        "id": "f87ff6ef.795118",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Light Level Low",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\LightLevelLow.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 720,
+        "y": 60,
+        "wires": [
+            [
+                "57445d31.924e14"
+            ]
+        ]
+    },
+    {
+        "id": "30a3c574.18fd5a",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Light Level High",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\LightLevelHigh.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 720,
+        "y": 100,
+        "wires": [
+            [
+                "57445d31.924e14"
+            ]
+        ]
+    },
+    {
+        "id": "57445d31.924e14",
+        "type": "ui_audio",
+        "z": "3dda4b0d.6b2384",
+        "name": "Light Level Announcement",
+        "group": "ae32a660.370198",
+        "voice": "en-GB",
+        "always": "",
+        "x": 960,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "63c82b6c.f446c4",
+        "type": "ui_gauge",
+        "z": "3dda4b0d.6b2384",
+        "name": "Water Level Gauge",
+        "group": "e211eccf.25c34",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "wave",
+        "title": "Water Level",
+        "label": "liters",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 370,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f2ccf0aa.a548c",
+        "type": "switch",
+        "z": "3dda4b0d.6b2384",
+        "name": "Water Level Compare",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "20",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "80",
+                "vt": "str"
+            },
+            {
+                "t": "btwn",
+                "v": "20",
+                "vt": "num",
+                "v2": "80",
+                "v2t": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            [
+                "a278882e.ea0508"
+            ],
+            [
+                "56991728.a80378",
+                "20d4cd56.187642"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "56991728.a80378",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Overfill!",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\Overfill.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 590,
+        "y": 640,
+        "wires": [
+            [
+                "74b7a294.cbf22c"
+            ]
+        ]
+    },
+    {
+        "id": "a278882e.ea0508",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Need Water",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\NeedsWater.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 600,
+        "y": 600,
+        "wires": [
+            [
+                "74b7a294.cbf22c"
+            ]
+        ]
+    },
+    {
+        "id": "1cb85483.8c25eb",
+        "type": "ui_audio",
+        "z": "3dda4b0d.6b2384",
+        "name": "Water Level Announcement",
+        "group": "e211eccf.25c34",
+        "voice": "en-GB",
+        "always": "",
+        "x": 1100,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "20d4cd56.187642",
+        "type": "file in",
+        "z": "3dda4b0d.6b2384",
+        "name": "Null",
+        "filename": "C:\\Users\\longo\\Documents\\GitHub\\DanielLongoIOT\\Lab2\\Null.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": true,
+        "x": 590,
+        "y": 680,
+        "wires": [
+            [
+                "74b7a294.cbf22c"
+            ]
+        ]
+    },
+    {
+        "id": "74b7a294.cbf22c",
+        "type": "rbe",
+        "z": "3dda4b0d.6b2384",
+        "name": "Block Unless Change",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "property": "payload",
+        "x": 840,
+        "y": 640,
+        "wires": [
+            [
+                "1cb85483.8c25eb"
+            ]
+        ]
+    },
+    {
+        "id": "94f64d8d.cd977",
+        "type": "ui_gauge",
+        "z": "3dda4b0d.6b2384",
+        "name": "",
+        "group": "31a9dab.e27bd26",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "compass",
+        "title": "Dust Level",
+        "label": "ppm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "2000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 710,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "38b46bf6.ea8244",
+        "type": "arduino-board",
+        "z": "",
+        "device": "COM9"
+    },
+    {
+        "id": "ae32a660.370198",
+        "type": "ui_group",
+        "z": "",
+        "name": "Light Level",
+        "tab": "48788472.5595ac",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "32dd4877.ab60f8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temperature",
+        "tab": "48788472.5595ac",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "e211eccf.25c34",
+        "type": "ui_group",
+        "z": "",
+        "name": "Virtual Sensor",
+        "tab": "48788472.5595ac",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "31a9dab.e27bd26",
+        "type": "ui_group",
+        "z": "",
+        "name": "Dust Level",
+        "tab": "48788472.5595ac",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "48788472.5595ac",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Lab2",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
